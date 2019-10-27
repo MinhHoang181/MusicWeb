@@ -1,0 +1,84 @@
+#mp3 {
+    /* background-color: #fcfcfc; */
+    background-color: #192536;
+}
+
+.avt-img {
+    border: 2px solid red;
+}
+
+/* .card{
+    margin:10px;
+  } */
+.card-body {
+    color: #192536;
+    padding: 15px;
+}
+
+.containerBHX {
+    background-color: #2b394c;
+    color: white;
+    padding: 10px;
+    margin: 25px;
+}
+
+img.card-img-top:hover {
+    transform: scale(1.09);
+    transition: all 0.3s ease-in-out;
+}
+
+.card-img {
+    overflow: hidden;
+    padding: 3px;
+}
+
+.navbar-top {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.colum1 {
+    width: max-content;
+    overflow: hidden;
+}
+
+.colum2 {
+    width: max-content;
+    overflow: hidden;
+}
+
+ul.music_list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    color: #fff;
+}
+
+.col-marr1 {
+    width: 49%;
+    /* border-bottom: 1px #f1f1f1 solid;*/
+    float: left;
+    padding: 16px 0;
+    background-color: red;
+}
+
+.col-marr2 {
+    width: 49%;
+    /*border-bottom: 1px #f1f1f1 solid;*/
+    float: left;
+    padding: 16px 0;
+    margin-left: 2%;
+    background-color: blue;
+}
+
+.box_content {
+    background-color: #2b394c;
+    overflow: hidden;
+    padding: 10px;
+    margin: 25px;
+}
