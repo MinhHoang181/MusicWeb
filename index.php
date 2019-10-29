@@ -1,3 +1,15 @@
+<?php
+    session_start();
+
+    // Neu logout thi xoa username, chuyen toi trang login
+    if (isset($_GET["logout"])) {
+        session_destroy();
+        unset($_SESSION["username"]);
+        unset($_SESSION["avatar"]);
+        header("location: index.php");
+    }
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -17,8 +29,8 @@
 </head>
 
 <body id="mp3">
-    <div class="navbar-top">
-        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <div class="navbar-top bg-dark navbar-dark">
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark mx-5">
             <!-- Brand -->
             <a class="navbar-brand" href="#">Ky Phan</a>
             <!-- Toggler/collapsibe Button -->
@@ -39,20 +51,43 @@
                     </li>
                 </ul>
             </div>
+            <!-- Thong tin user -->
             <span id="collapsibleNavbar" class="collapse show mr-sm-3">
                 <ul class="navbar-nav">
+                    <!-- Avatar -->
                     <li class="nav-item">
-                        <img src="images/guestAvatar.jpeg" alt="guest" class="rounded-circle float-right avt-img" style="width: 50px;">
+                        <img src=
+                        <?php if (isset($_SESSION["avatar"])) {
+                            echo $_SESSION["avatar"];
+                        } else {
+                            echo "images/guestAvatar.jpeg";
+                        }
+                        ?>
+                        alt="guest" class="rounded-circle float-right avt-img" style="width: 50px;">
                     </li>
                     <!-- Dang nhap -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.html" target="_black">Dang nhap</a>
-                    </li>
+                    <?php if (isset($_SESSION["username"])) { ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <?php echo $_SESSION["username"]; ?>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Nhạc cá nhân</a>
+                                <a class="dropdown-item" href="#">Thông tin cá nhân</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="index.php?logout='1'">Đăng xuất</a>
+                            </div>
+                        </li>
+                    <?php } else { ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php" target="_black">Đăng nhập</a>
+                        </li>
+                    <?php } ?>
                 </ul>
-                
             </span>
+        </nav>
     </div>
-    </nav>
+    
     <!--content-->
     <div class="container">
         <div class="containerBHX">

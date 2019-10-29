@@ -13,7 +13,7 @@
       <div class="container">
           <div class="row mt-5">
               <div class="col-6 mx-auto">
-                    <form class="bg-light p-3" id="registerForm" action="admin/register.php" method="POST">
+                    <form class="bg-light p-3" id="registerForm" action="admin/server.php" method="POST">
                         <!-- ten dang nhap -->
                         <div class="form-group">
                             <label><b>Tên đăng nhập</b></label>
@@ -56,8 +56,23 @@
                     </form>
                     <!-- chuyen sang trang dang nhap -->
                     <div class="d-flex justify-content-center">
-                        <p>Bạn đã có tài khoản? <a href="login.html">Đăng nhập ngay!</a></p>
+                        <p>Bạn đã có tài khoản? <a href="login.php">Đăng nhập ngay!</a></p>
                     </div>
+
+                    <!-- Thong bao khong dang ky duoc -->
+                    <?php // Neu khong register duoc, thong bao loi
+                    if (isset($_SESSION["register_error"])) { ?>
+                    <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-center" role="alert">
+                        <?php // in lenh loi
+                        echo $_SESSION["register_error"];
+                        unset($_SESSION["register_error"]);
+                         ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <?php } // ket thuc lenh if ?>
+
               </div>
           </div>
       </div>

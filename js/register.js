@@ -6,7 +6,7 @@ var acceptLawCheck = false;
 
 $("document").ready(function() {
 
-    // Kiem tra username
+    // Kiem tra username - url: "admin/server.php"
     $("#username").on("input", function() {
         var username = $("#username").val();
         var usernameError = $("#usernameError");
@@ -28,7 +28,7 @@ $("document").ready(function() {
             usernameCheck = false;
         } else { // Kiem tra tai khoan ton tai hay chua
             $.ajax({
-                url: "admin/register.php",
+                url: "admin/server.php",
                 type: "POST",
                 data: {
                     "username_check": 1,
@@ -86,7 +86,7 @@ $("document").ready(function() {
         }
     });
 
-    // Kiem tra email
+    // Kiem tra email - url: "admin/server.php"
     $("#email").on("input", function() {
         var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         var email = $("#email").val();
@@ -104,12 +104,12 @@ $("document").ready(function() {
             emailCheck = false;
         } else { // Kiem tra email ton tai hay chua
             $.ajax({
-                url: "admin/register.php",
+                url: "admin/server.php",
                 type: "POST",
                 data: {
                     "email_check": 1,
                     "emailCheck": email,},
-                success: function(response) { // Gui request len register.php tra ve ket qua
+                success: function(response) {
                     if (response == "taken") {
                         emailError.removeClass("text-success");
                         emailError.addClass("text-danger");
