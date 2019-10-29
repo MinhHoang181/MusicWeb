@@ -1,3 +1,15 @@
+<?php
+    session_start();
+
+    // Neu logout thi xoa username, chuyen toi trang login
+    if (isset($_GET["logout"])) {
+        session_destroy();
+        unset($_SESSION["username"]);
+        unset($_SESSION["avatar"]);
+        header("location: index.php");
+    }
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -17,8 +29,8 @@
 </head>
 
 <body id="mp3">
-    <div class="navbar-top">
-        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <div class="navbar-top bg-dark navbar-dark">
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark mx-5">
             <!-- Brand -->
             <a class="navbar-brand" href="#">Ky Phan</a>
             <!-- Toggler/collapsibe Button -->
@@ -39,11 +51,43 @@
                     </li>
                 </ul>
             </div>
+            <!-- Thong tin user -->
             <span id="collapsibleNavbar" class="collapse show mr-sm-3">
-                <img src="https://scontent-hkg3-2.xx.fbcdn.net/v/t1.0-1/p160x160/69244239_906460653054539_4199620138720296960_n.jpg?_nc_cat=108&_nc_oc=AQlC0S5h17Osl5PVvI4wS6UkbjY_jY9BzlbE_qbuMo6mCgboclJ_UENV-99D7eCjqNo&_nc_ht=scontent-hkg3-2.xx&oh=9dad1f13ce66ba0b48e7b36c12cd27df&oe=5E2B1651" alt="kyphan" class="rounded-circle float-right avt-img" style="width: 50px;">
+                <ul class="navbar-nav">
+                    <!-- Avatar -->
+                    <li class="nav-item">
+                        <img src=
+                        <?php if (isset($_SESSION["avatar"])) {
+                            echo $_SESSION["avatar"];
+                        } else {
+                            echo "images/guestAvatar.jpeg";
+                        }
+                        ?>
+                        alt="guest" class="rounded-circle float-right avt-img" style="width: 50px;">
+                    </li>
+                    <!-- Dang nhap -->
+                    <?php if (isset($_SESSION["username"])) { ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <?php echo $_SESSION["username"]; ?>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Nhạc cá nhân</a>
+                                <a class="dropdown-item" href="#">Thông tin cá nhân</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="index.php?logout='1'">Đăng xuất</a>
+                            </div>
+                        </li>
+                    <?php } else { ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php" target="_black">Đăng nhập</a>
+                        </li>
+                    <?php } ?>
+                </ul>
             </span>
+        </nav>
     </div>
-    </nav>
+    
     <!--content-->
     <div class="container">
         <div class="containerBHX">
@@ -191,7 +235,7 @@
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script>
         var slideIndex = 0;
-        showSlides();
+        //showSlides();
 
         function showSlides() {
             var i;
