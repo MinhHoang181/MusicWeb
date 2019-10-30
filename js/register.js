@@ -2,7 +2,7 @@ var usernameCheck = false;
 var password1Check = false;
 var password2Check = false;
 var emailCheck = false;
-var acceptLawCheck = false;
+var acceptLawCheck = true;
 
 $("document").ready(function() {
 
