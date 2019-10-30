@@ -28,7 +28,7 @@ $("document").ready(function() {
             usernameCheck = false;
         } else { // Kiem tra tai khoan ton tai hay chua
             $.ajax({
-                url: "admin/server.php",
+                url: "system/server.php",
                 type: "POST",
                 data: {
                     "username_check": 1,
@@ -104,7 +104,7 @@ $("document").ready(function() {
             emailCheck = false;
         } else { // Kiem tra email ton tai hay chua
             $.ajax({
-                url: "admin/server.php",
+                url: "system/server.php",
                 type: "POST",
                 data: {
                     "email_check": 1,

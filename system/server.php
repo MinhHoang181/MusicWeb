@@ -2,7 +2,9 @@
     // Tao moi hoac mo session da ton tai
     session_start();
     // Ket noi database
+    //$conn = new mysqli("localhost", "root", "", "listmusic");
     require_once("connect.php");
+    $db = $conn;
 
     // PHP Dang nhap tai khoan, kiem tra trong database
     //
@@ -18,7 +20,7 @@
             $_SESSION["login_error"] = "Sai tên đăng nhập hoặc mật khẩu";
             header("Location: ../login.php");
         } else {
-            $_SESSION["username"] = $username;
+            $_SESSION["user"] = GetUser($username);
             header("Location: ../index.php");
         }
     } 
@@ -58,14 +60,23 @@
         $password_1 = $_POST["password1"];
         $email = $_POST["email"];
         // Cau lenh SQL luu vao trong database
-        $sql = "INSERT INTO account( username, password, email)
-                VALUES ('$username', '$password_1', '$email')";           
+        $sql = "INSERT INTO account( username, password, email, user_type)
+                VALUES ('$username', '$password_1', '$email', 'user')";           
         // Neu loi thi xuat loi, ko thi chuyen toi trang index
         if ($conn->query($sql) === FALSE) {
             $_SESSION["register_error"] = "Lỗi không thể đăng ký, vui lòng thử lại";
         } else {
-            $_SESSION["username"] = $username;
+            $_SESSION["user"] = GetUser($username);
             header("Location: ../index.php");
         }
     }    
+
+// Ham lay het thong tin cua user tren database
+function GetUser($usernameGet) {
+    global $db;
+    $sql = "SELECT * FROM account WHERE username='$usernameGet'";
+    $result = mysqli_query($db,$sql);
+    $user = mysqli_fetch_assoc($result);
+    return $user;
+}
 ?>
