@@ -4,8 +4,7 @@
     // Neu logout thi xoa username, chuyen toi trang login
     if (isset($_GET["logout"])) {
         session_destroy();
-        unset($_SESSION["username"]);
-        unset($_SESSION["avatar"]);
+        session_unset();
         header("location: index.php");
     }
 ?>
@@ -17,22 +16,37 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/main-style.css">
+    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap-table CSS -->
+    <link href="vendor/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
+    <!-- Fontawesome CSS -->
+    <link href="vendor/fontawesome/css/all.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/main-style.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- Bootstrap-table JS -->
+    <script src="vendor/bootstrap-table/dist/bootstrap-table.js"></script>
+    <script src="vendor/bootstrap-table/dist/bootstrap-table-locale-all.js"></script>
+
     <style>
         [class*="col-"] {
-      margin-bottom: 10px;
-    }
-  </style>
+            margin-bottom: 10px;
+        }
+    </style>
+    
     <title>WEB MUSIC</title>
 </head>
 
 <body id="mp3">
-    <div class="navbar-top bg-dark navbar-dark">
+    <div class="navbar-top bg-dark">
         <nav class="navbar navbar-expand-md bg-dark navbar-dark mx-5">
             <!-- Brand -->
-            <a class="navbar-brand" href="#">Ky Phan</a>
+            <a class="navbar-brand" href="#">Trang chu</a>
             <!-- Toggler/collapsibe Button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -57,28 +71,41 @@
                     <!-- Avatar -->
                     <li class="nav-item">
                         <img src=
-                        <?php if (isset($_SESSION["avatar"])) {
-                            echo $_SESSION["avatar"];
+                        <?php if (isset($_SESSION["user"])) { // Neu dang nhap thi hien thi link avatar cua user
+                            echo "images/" . $_SESSION["user"]["avatar"];
                         } else {
-                            echo "images/guestAvatar.jpeg";
+                            echo "images/guestAvatar.jpeg"; // Neu chua dang nhap thi hien thi default
                         }
                         ?>
-                        alt="guest" class="rounded-circle float-right avt-img" style="width: 50px;">
+                        alt="user" class="rounded-circle float-right avt-img" style="width: 50px;">
                     </li>
                     <!-- Dang nhap -->
-                    <?php if (isset($_SESSION["username"])) { ?>
+                    <?php if (isset($_SESSION["user"])) { // Neu dang nhap thi hien ten, muc dropdown ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <?php echo $_SESSION["username"]; ?>
+                                <!-- Hien ten -->
+                                <?php
+                                if ($_SESSION["user"]["fullname"] == '') {
+                                    echo $_SESSION["user"]["username"]; 
+                                } else {
+                                    echo $_SESSION["user"]["fullname"]; 
+                                }
+                                 ?>
+                                <!----------------------------------------->
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#">Nhạc cá nhân</a>
                                 <a class="dropdown-item" href="#">Thông tin cá nhân</a>
                                 <div class="dropdown-divider"></div>
+                                <!-- Neu user_type = admin thi xuat hien muc ADMIN -->
+                                <?php if ($_SESSION["user"]["user_type"] == "admin") { ?>
+                                    <a class="dropdown-item" href="admin/index.php"><strong>Chức năng admin</strong></a>
+                                <?php } ?>
+                                <!----------------------------------------------------------------------->
                                 <a class="dropdown-item" href="index.php?logout='1'">Đăng xuất</a>
                             </div>
                         </li>
-                    <?php } else { ?>
+                    <?php } else { // Neu chua dang nhap thi hien muc dang nhap ?>
                         <li class="nav-item">
                             <a class="nav-link" href="login.php" target="_black">Đăng nhập</a>
                         </li>
@@ -231,27 +258,25 @@
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
         </div>
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script>
-        var slideIndex = 0;
-        //showSlides();
+    </footer>
 
-        function showSlides() {
-            var i;
-            var slides = document.getElementsByClassName("mySlides");
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1 }
-            slides[slideIndex - 1].style.display = "block";
-            setTimeout(showSlides, 1500); // Change image every 2 seconds
+<!-- Optional JavaScript -->
+<script>
+    var slideIndex = 0;
+    //showSlides();
+
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
         }
-        </script>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1 }
+        slides[slideIndex - 1].style.display = "block";
+        setTimeout(showSlides, 1500); // Change image every 2 seconds
+    }
+</script>
 </body>
 
 </html>
