@@ -80,7 +80,7 @@
                                 <div class="dropdown-divider"></div>
                                 <!-- Neu user_type = admin thi xuat hien muc ADMIN -->
                                 <?php if ($_SESSION["user"]["user_type"] == "admin") { ?>
-                                    <a class="dropdown-item" href="admin/dashboard.php"><strong>Chức năng admin</strong></a>
+                                    <a class="dropdown-item" href="admin/index.php"><strong>Chức năng admin</strong></a>
                                 <?php } ?>
                                 <!----------------------------------------------------------------------->
                                 <a class="dropdown-item" href="index.php?logout='1'">Đăng xuất</a>
@@ -239,9 +239,14 @@
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
         </div>
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- Optional JavaScript -->
+    <script>
         var slideIndex = 0;
         //showSlides();
 
@@ -256,14 +261,7 @@
             slides[slideIndex - 1].style.display = "block";
             setTimeout(showSlides, 1500); // Change image every 2 seconds
         }
-        </script>
-
-    <!-- jQuery -->
-    <script src="vendor/jquery/jquery.js"></script>
-    <!-- Optional JavaScript -->
-    
-    <!-- Bootstrap JS -->
-    <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    </script>
 </body>
 
 </html>

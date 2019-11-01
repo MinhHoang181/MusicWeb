@@ -1,5 +1,6 @@
 <?php 
     session_start();
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -18,7 +19,7 @@
             <div class="row mt-5">
                 <div class="col-6 mx-auto">
                     <!-- Form dang nhap -->
-                    <form id="loginForm" class="bg-light p-3" action="system/server.php" method="POST">
+                    <form id="loginForm" class="bg-light p-3" action="admin/system/server.php" method="POST">
                         <!-- ten dang nhap -->
                         <div class="form-group">
                             <label><b>Tên đăng nhập</b></label>
@@ -67,9 +68,9 @@
         
         <!-- jQuery -->
         <script src="vendor/jquery/jquery.js"></script>
-        <!-- Optional JavaScript -->
-        <script type="text/JavaScript" src="js/login.js"></script>
         <!-- Bootstrap JS -->
         <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
+        <!-- Optional JavaScript -->
+        <script type="text/JavaScript" src="js/login.js"></script>
     </body>
 </html>

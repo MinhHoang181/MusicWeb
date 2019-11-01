@@ -14,7 +14,7 @@
       <div class="container">
           <div class="row mt-5">
               <div class="col-6 mx-auto">
-                    <form class="bg-light p-3" id="registerForm" action="system/server.php" method="POST">
+                    <form class="bg-light p-3" id="registerForm" action="admin/system/server.php" method="POST">
                         <!-- ten dang nhap -->
                         <div class="form-group">
                             <label><b>Tên đăng nhập</b></label>
@@ -80,9 +80,9 @@
 
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.js"></script>
-    <!-- Optional JavaScript -->
-    <script type="text/JavaScript" src="js/register.js"></script>
     <!-- Bootstrap JS -->
     <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- Optional JavaScript -->
+    <script type="text/JavaScript" src="js/register.js"></script>
   </body>
 </html>
