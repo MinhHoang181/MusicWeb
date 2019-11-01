@@ -3,7 +3,7 @@
     require_once("system/database.php");
 ?>
 <div class="container">
-  <h1 class="text-primary"><a href="index.php?menu=userdata"><i class="fa fa-arrow-left"></i></a>  Create Profile</h1>
+  <h2 class="text-info"><a href="index.php?menu=userdata" class="text-dark"><i class="fa fa-arrow-left"></i></a>  Tạo tài khoản</h2>
   <hr>
   
 	<div class="row">
@@ -94,7 +94,7 @@
             </div>
           </div>
           <!-- button submit -->
-          <button type="submit" class="btn btn-primary btn-lg ml-3" name="createBtn" id="createBtn">Tạo tài khoản</button>
+          <button type="submit" class="btn btn-secondary btn-lg ml-3" name="createBtn" id="createBtn">Tạo tài khoản</button>
         </form>
         <!--/.form edit -->
       </div>

@@ -16,9 +16,22 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
     <!-- Bootstrap CSS -->
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/main-style.css">
+    <!-- Bootstrap-table CSS -->
+    <link href="vendor/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
+    <!-- Fontawesome CSS -->
+    <link href="vendor/fontawesome/css/all.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/main-style.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- Bootstrap-table JS -->
+    <script src="vendor/bootstrap-table/dist/bootstrap-table.js"></script>
+    <script src="vendor/bootstrap-table/dist/bootstrap-table-locale-all.js"></script>
 
     <style>
         [class*="col-"] {
@@ -247,27 +260,23 @@
         </div>
     </footer>
 
-    <!-- jQuery -->
-    <script src="vendor/jquery/jquery.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    <!-- Optional JavaScript -->
-    <script>
-        var slideIndex = 0;
-        //showSlides();
+<!-- Optional JavaScript -->
+<script>
+    var slideIndex = 0;
+    //showSlides();
 
-        function showSlides() {
-            var i;
-            var slides = document.getElementsByClassName("mySlides");
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1 }
-            slides[slideIndex - 1].style.display = "block";
-            setTimeout(showSlides, 1500); // Change image every 2 seconds
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
         }
-    </script>
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1 }
+        slides[slideIndex - 1].style.display = "block";
+        setTimeout(showSlides, 1500); // Change image every 2 seconds
+    }
+</script>
 </body>
 
 </html>

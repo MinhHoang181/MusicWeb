@@ -1,5 +1,10 @@
 <?php 
     require_once("system/admincheck.php");
+    if (isset($_GET["logout"])) {
+        session_unset();
+        session_destroy();
+        header("Location: ../login.php");
+    }
 ?>
 
 <!doctype html>
@@ -13,7 +18,6 @@
     <link href="../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
     <!-- Bootstrap-table CSS -->
     <link href="../vendor/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet">
-
     <!-- Fontawesome CSS -->
     <link href="../vendor/fontawesome/css/all.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -25,7 +29,6 @@
     <!-- Bootstrap-table JS -->
     <script src="../vendor/bootstrap-table/dist/bootstrap-table.js"></script>
     <script src="../vendor/bootstrap-table/dist/bootstrap-table-locale-all.js"></script>
-    <!-- Optional JavaScript -->
 
     <title>Dashboard</title>
 </head>
@@ -36,7 +39,7 @@
         <nav id="sidebar" class="border-right">
             <!-- header slider bar -->
             <div class="sidebar-header border-bottom bg-dark" id="sidebar-header">
-                <a href="index.php" class="text-decoration-none">Administrator</a>
+                <a href="index.php" class="text-decoration-none text-white">Administrator</a>
             </div>
             <!-- Cac muc quan ly -->
             <ul class="list-group list-group-flush">
@@ -67,7 +70,7 @@
                     <ul class="collapse list-unstyled" id="userSubMenu">
                         <li><a href="index.php?menu=userdata" class="list-group-item list-group-item-action">Danh sách tài khoản</a></li>
                         <li><a href="#" class="list-group-item list-group-item-action">Quản trị viên</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action">Thoát</a></li>
+                        <li><a href="index.php?logout=1" class="list-group-item list-group-item-action">Thoát</a></li>
                     </ul>
                 </li>
             </ul>
@@ -80,11 +83,13 @@
                 <!-- -->
                 <div class="conainer-fluid">
                     <!-- button slidebar -->
-                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                        <i class="fas fa-aglign-left"></i>
-                        <span>Menu</span>
-                    </button>
+                    <button id="sidebarCollapse" class="btn btn-secondary"><i class="fas fa-bars"></i> Quản lý</button>
                 </div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-secondary text-white" href="../index.php"><i class="fas fa-home"></i> Tới trang chủ</a>
+                    </li>
+                </ul>
             </nav>
             <!-- show data -->
             <div id="data">
@@ -107,6 +112,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Optional JavaScript -->
 
 <script>
 $("#sidebarCollapse").on("click", function() {

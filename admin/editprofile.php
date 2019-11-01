@@ -4,7 +4,7 @@
     $user = GetUserByUsername($_GET["username"]);
 ?>
 <div class="container">
-  <h1 class="text-primary"><a href="index.php?menu=userdata"><i class="fa fa-arrow-left"></i></a>  Edit Profile <?php echo $_GET["username"] ?></h1>
+  <h2 class="text-info"><a href="index.php?menu=userdata" class="text-dark"><i class="fa fa-arrow-left"></i></a>  Edit Profile: <?php echo $_GET["username"] ?></h2>
   <hr>
   
 	<div class="row">
@@ -94,8 +94,8 @@
               <input id="avatar" class="form-control" type="file" name="avatar">
             </div>
           </div>
-            <button type="button" class="btn btn-primary btn-lg ml-3" id="refeshBtn">Thiết lập lại</button>
-            <button type="submit" class="btn btn-primary btn-lg ml-3" name="editBtn" id="updateBtn" disabled>Lưu thay đổi</button>
+            <button type="button" class="btn btn-secondary btn-lg ml-3" id="refeshBtn">Thiết lập lại</button>
+            <button type="submit" class="btn btn-secondary btn-lg ml-3" name="editBtn" id="updateBtn" disabled>Lưu thay đổi</button>
         </form>
         <!--/.form edit -->
       </div>

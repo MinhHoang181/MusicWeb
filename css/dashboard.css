@@ -26,7 +26,7 @@ a[data-toggle="collapse"] {
 }
 
 #content {
-    min-width: 100vw;
+    width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -39,7 +39,6 @@ a[data-toggle="collapse"] {
 }
 
 #sidebar-header {
-    color: white;
     font-size: 30px;
     display: flex;
     justify-content: center;

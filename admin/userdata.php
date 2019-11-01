@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <!-- Table -->
-        <div class="col-10 table-responsive">
+        <div class="table-responsive">
             <!-- Toolbar -->
             <div id="toolbar">
                 <div class="form-inline" role="form">
@@ -59,11 +59,11 @@
                         <td class="text-left"><?php echo $user["username"]?></td>
                         <td class="text-left"><?php echo $user["email"]?></td>
                         <td>
-                            <input class="passwordShow w-50 text-left" type="password" value="<?php echo $user["password"]?>" id="password<?php echo $user["id"]?>" disabled>
-                            <label>| <a class="showPasswordBtn text-decoration-none" href="#">Show</a></label>
+                            <input class="passwordShow text-left" type="password" value="<?php echo $user["password"]?>" id="password<?php echo $user["id"]?>" disabled>
+                            <i class="showPasswordBtn fas fa-eye"></i>
                         </td>
                         <td class="text-center"><?php echo $user["user_type"]?></td>
-                        <td class="text-center"><a class="text-decoration-none" href="index.php?menu=editprofile&username=<?php echo $user["username"]?>">Sửa</a> | <a class="text-decoration-none" href="system/account.php?deleteAccount=<?php echo $user["id"]?>">Xoá</a></td>
+                        <td class="text-center"><a href="index.php?menu=editprofile&username=<?php echo $user["username"]?>"><i class="fas fa-edit"></i></a> | <a href="system/account.php?deleteAccount=<?php echo $user["id"]?>"><i class="fas fa-trash-alt text-danger"></i></a></td>
                     </tr>
                 <?php 
                 } 
