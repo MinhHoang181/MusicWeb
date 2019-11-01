@@ -7,6 +7,16 @@
     <div class="row">
         <!-- Table -->
         <div class="col-10 table-responsive">
+            <!-- Toolbar -->
+            <div id="toolbar">
+                <div class="form-inline" role="form">
+                    <!-- Add account -->
+                    <div class="form-group">
+                            <a href="index.php?menu=createprofile"><button class="btn btn-secondary"><i class="fa fa-user-plus"></i> Tạo tài khoản</button></a>
+                    </div>
+                </div>
+            </div>
+            <!-- data table -->
             <table 
                 data-classes="table table-bordered table-hover"
                 data-toggle="table"
@@ -22,7 +32,13 @@
                 data-show-extended-pagination="true"
                 data-pagination-loop="false"
                 data-page-list = "[10, 25, 50, 100, All]"
+
+                data-toolbar="#toolbar"
+                data-query-params="queryParams"
+                data-response-handler="responseHandler"
+  
             >
+                <!-- header -->
                 <thead class="thead-dark">
                     <tr>
                         <th class="text-center" data-field="id" data-width="100">ID</th>
@@ -39,15 +55,15 @@
                 $result = GetAllUser();
                 while ($user = mysqli_fetch_assoc($result)) { ?>
                     <tr>
-                        <td class="text-center idUser"><?php echo $user["id"]?></td>
+                        <td class="text-center"><?php echo $user["id"]?></td>
                         <td class="text-left"><?php echo $user["username"]?></td>
                         <td class="text-left"><?php echo $user["email"]?></td>
                         <td>
-                            <input class="w-50 text-left" type="password" value="<?php echo $user["password"]?>" id="password<?php echo $user["id"]?>" disabled>
-                            <label>| <a class="text-decoration-none" href="#" onmousedown="Show('password<?php echo $user['id']?>')" onmouseup="Hide('password<?php echo $user['id']?>')">Show</a></label>
+                            <input class="passwordShow w-50 text-left" type="password" value="<?php echo $user["password"]?>" id="password<?php echo $user["id"]?>" disabled>
+                            <label>| <a class="showPasswordBtn text-decoration-none" href="#">Show</a></label>
                         </td>
                         <td class="text-center"><?php echo $user["user_type"]?></td>
-                        <td class="text-center"><a class="text-decoration-none editUserProfile" href="index.php?menu=editprofile&username=<?php echo $user["username"]?>">Sửa</a> | <a class="text-decoration-none" href="#">Xoá</a></td>
+                        <td class="text-center"><a class="text-decoration-none" href="index.php?menu=editprofile&username=<?php echo $user["username"]?>">Sửa</a> | <a class="text-decoration-none" href="system/account.php?deleteAccount=<?php echo $user["id"]?>">Xoá</a></td>
                     </tr>
                 <?php 
                 } 
@@ -62,12 +78,24 @@
 </div>
 
 <script>
-function Show(id) {
-    var obj = document.getElementById(id);
-    obj.type = "text";
+$("document").ready(function() {
+    // Show/Hide password khi an nut Show
+    $(".showPasswordBtn").on("mousedown", function() {
+        $(this).closest("td").find(".passwordShow").prop("type", "text");
+    }).on("mouseup", function() {
+        $(this).closest("td").find(".passwordShow").prop("type", "password");
+    });
+});
+
+function queryParams() {
+    var params = {}
+    $('#toolbar').find('input[name]').each(function () {
+      params[$(this).attr('name')] = $(this).val()
+    })
+    return params
 }
-function Hide(id) {
-    var obj = document.getElementById(id);
-    obj.type = "password";
+
+function responseHandler(res) {
+return res.rows
 }
 </script>

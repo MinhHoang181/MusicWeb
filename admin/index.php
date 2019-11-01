@@ -18,6 +18,14 @@
     <link href="../vendor/fontawesome/css/all.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../css/dashboard.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- Bootstrap-table JS -->
+    <script src="../vendor/bootstrap-table/dist/bootstrap-table.js"></script>
+    <script src="../vendor/bootstrap-table/dist/bootstrap-table-locale-all.js"></script>
+    <!-- Optional JavaScript -->
 
     <title>Dashboard</title>
 </head>
@@ -89,22 +97,21 @@
                         case "editprofile":
                             require_once("editprofile.php");
                             break;
+                        case "createprofile":
+                            require_once("createprofile.php");
+                            break;
                     }
                 }
                 ?>
+                <br>
             </div>
         </div>
-
     </div>
 
-    <!-- jQuery -->
-    <script src="../vendor/jquery/jquery.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    <!-- Bootstrap-table JS -->
-    <script src="../vendor/bootstrap-table/dist/bootstrap-table.js"></script>
-    <script src="../vendor/bootstrap-table/dist/bootstrap-table-locale-all.js"></script>
-    <!-- Optional JavaScript -->
-    <script src="../js/admin.js"></script>
+<script>
+$("#sidebarCollapse").on("click", function() {
+    $("#sidebar").toggleClass("active");
+});
+</script>
 </body>
 </html>

@@ -14,7 +14,14 @@
       <div class="container">
           <div class="row mt-5">
               <div class="col-6 mx-auto">
-                    <form class="bg-light p-3" id="registerForm" action="admin/system/server.php" method="POST">
+                    <form class="bg-light p-3" id="registerForm" action="admin/system/account.php" method="POST">
+                        <!-- Ho va ten -->
+                        <div class="form-group">
+                            <label><b>Tên đầy đủ</b></label>
+                            <input type="text" class="form-control" id="fullname" name="fullname" value="">
+                            <!-- thong bao loi phan fullname -->
+                            <div class="text-danger pt-2" id="fullnameError"></div>
+                        </div>
                         <!-- ten dang nhap -->
                         <div class="form-group">
                             <label><b>Tên đăng nhập</b></label>

@@ -19,7 +19,7 @@
             <div class="row mt-5">
                 <div class="col-6 mx-auto">
                     <!-- Form dang nhap -->
-                    <form id="loginForm" class="bg-light p-3" action="admin/system/server.php" method="POST">
+                    <form id="loginForm" class="bg-light p-3" action="admin/system/account.php" method="POST">
                         <!-- ten dang nhap -->
                         <div class="form-group">
                             <label><b>Tên đăng nhập</b></label>

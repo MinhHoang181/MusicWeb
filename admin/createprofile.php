@@ -1,17 +1,16 @@
 <?php 
     require_once("system/admincheck.php");
     require_once("system/database.php");
-    $user = GetUserByUsername($_GET["username"]);
 ?>
 <div class="container">
-  <h1 class="text-primary"><a href="index.php?menu=userdata"><i class="fa fa-arrow-left"></i></a>  Edit Profile <?php echo $_GET["username"] ?></h1>
+  <h1 class="text-primary"><a href="index.php?menu=userdata"><i class="fa fa-arrow-left"></i></a>  Create Profile</h1>
   <hr>
   
 	<div class="row">
       <!-- avatar -->
       <div class="col-md-3">
         <div class="text-center">
-          <img src="../images/<?php echo $user["avatar"] ?>" class="rounded-circle img-fluid" alt="avatar">
+          <img src="../images/guestAvatar.jpeg" class="rounded-circle img-fluid" alt="avatar">
         </div>
       </div>
       
@@ -20,13 +19,13 @@
         <!-- thong bao-->
         
           <?php 
-          if (isset($_SESSION["edit_success"])) { 
+          if (isset($_SESSION["create_success"])) { 
           ?>
             <div class="col-lg-8 alert alert-success alert-dismissable">
               <a class="panel-close close" data-dismiss="alert">×</a> 
               <?php 
-              echo $_SESSION["edit_success"];
-              unset($_SESSION["edit_success"]); 
+              echo $_SESSION["create_success"];
+              unset($_SESSION["create_success"]); 
               ?>
             </div>
           <?php 
@@ -35,8 +34,8 @@
             <div class="col-lg-8 alert alert-danger alert-dismissable">
               <a class="panel-close close" data-dismiss="alert">×</a> 
               <?php 
-              echo $_SESSION["edit_fail"];
-              unset($_SESSION["edit_fail"]);
+              echo $_SESSION["create_fail"];
+              unset($_SESSION["create_fail"]);
               ?>
             </div>
           <?php
@@ -46,33 +45,33 @@
         <!--/.alert -->
         <h3>Thông tin cá nhân</h3>
         <!-- form edit-->
-        <form id="editForm" action="system/account.php" method="POST" enctype="multipart/form-data">
+        <form id="createForm" action="system/account.php" method="POST" enctype="multipart/form-data">
           <!-- username -->
           <div class="form-group">
             <label class="col-lg-3 control-label">Tên đăng nhập:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="username" value="<?php echo $user["username"] ?>" readonly>
+              <input class="form-control" type="text" name="username" required>
             </div>
           </div>
           <!-- fullname -->
           <div class="form-group">
             <label class="col-lg-3 control-label">Họ và tên:</label>
             <div class="col-lg-8">
-              <input id="fullName" class="form-control" type="text" name="fullname" value="<?php echo $user["fullname"] ?>">
+              <input id="fullName" class="form-control" type="text" name="fullname">
             </div>
           </div>
           <!-- password -->
           <div class="form-group">
             <label class="col-lg-3 control-label">Mật khẩu:</label>
             <div class="col-lg-8">
-              <input id="password" class="form-control" type="password" name="password" value="<?php echo $user["password"]?>">
+              <input id="password" class="form-control" type="password" name="password" required>
             </div>
           </div>
           <!-- email -->
           <div class="form-group">
             <label class="col-lg-3 control-label">Email:</label>
             <div class="col-lg-8">
-              <input id="email" class="form-control" type="text" name="email" value="<?php echo $user["email"] ?>">
+              <input id="email" class="form-control" type="text" name="email">
             </div>
           </div>
           <!-- user_type -->
@@ -81,8 +80,8 @@
             <div class="col-lg-8">
               <div class="ui-select">
                 <select id="user_type" class="form-control" name="user_type">
-                  <option value="user" <?php if($user["user_type"]=="user") {echo "selected";} ?>>User</option>
-                  <option value="admin" <?php if($user["user_type"]=="admin") {echo "selected";} ?>>Admin</option>
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
                 </select>
               </div>
             </div>
@@ -94,8 +93,8 @@
               <input id="avatar" class="form-control" type="file" name="avatar">
             </div>
           </div>
-            <button type="button" class="btn btn-primary btn-lg ml-3" id="refeshBtn">Thiết lập lại</button>
-            <button type="submit" class="btn btn-primary btn-lg ml-3" name="editBtn" id="updateBtn" disabled>Lưu thay đổi</button>
+          <!-- button submit -->
+          <button type="submit" class="btn btn-primary btn-lg ml-3" name="createBtn" id="createBtn">Tạo tài khoản</button>
         </form>
         <!--/.form edit -->
       </div>

@@ -4,7 +4,7 @@
     // Neu logout thi xoa username, chuyen toi trang login
     if (isset($_GET["logout"])) {
         session_destroy();
-        unset($_SESSION["user"]);
+        session_unset();
         header("location: index.php");
     }
 ?>
@@ -71,7 +71,13 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <!-- Hien ten -->
-                                <?php echo $_SESSION["user"]["username"]; ?>
+                                <?php
+                                if ($_SESSION["user"]["fullname"] == '') {
+                                    echo $_SESSION["user"]["username"]; 
+                                } else {
+                                    echo $_SESSION["user"]["fullname"]; 
+                                }
+                                 ?>
                                 <!----------------------------------------->
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">

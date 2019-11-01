@@ -6,7 +6,7 @@ var acceptLawCheck = true;
 
 $("document").ready(function() {
 
-    // Kiem tra username - url: "admin/system/server.php"
+    // Kiem tra username - url: "admin/system/account.php"
     $("#username").on("input", function() {
         var username = $("#username").val();
         var usernameError = $("#usernameError");
@@ -28,7 +28,7 @@ $("document").ready(function() {
             usernameCheck = false;
         } else { // Kiem tra tai khoan ton tai hay chua
             $.ajax({
-                url: "admin/system/server.php",
+                url: "admin/system/account.php",
                 type: "POST",
                 data: {
                     "username_check": 1,
@@ -86,7 +86,7 @@ $("document").ready(function() {
         }
     });
 
-    // Kiem tra email - url: "admin/system/server.php"
+    // Kiem tra email - url: "admin/system/account.php"
     $("#email").on("input", function() {
         var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         var email = $("#email").val();
@@ -104,7 +104,7 @@ $("document").ready(function() {
             emailCheck = false;
         } else { // Kiem tra email ton tai hay chua
             $.ajax({
-                url: "admin/system/server.php",
+                url: "admin/system/account.php",
                 type: "POST",
                 data: {
                     "email_check": 1,
