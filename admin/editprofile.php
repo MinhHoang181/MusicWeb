@@ -3,6 +3,22 @@
     require_once("system/database.php");
     $user = GetUserByUsername($_GET["username"]);
 ?>
+<style>
+.avatar-frame {
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.avatar-frame img {
+  width: auto;
+  height: 100%;
+}
+</style>
+
 <div class="container">
   <h2 class="text-info"><a href="index.php?menu=userdata" class="text-dark"><i class="fa fa-arrow-left"></i></a>  Edit Profile: <?php echo $_GET["username"] ?></h2>
   <hr>
@@ -10,9 +26,16 @@
 	<div class="row">
       <!-- avatar -->
       <div class="col-md-3">
-        <div class="text-center">
-          <img src="../images/<?php echo $user["avatar"] ?>" class="rounded-circle img-fluid" alt="avatar">
+        <div class="avatar-frame">
+          <img id="avatarShow" src="../images/<?php echo $user["avatar"] ?>" alt="avatar">
         </div>
+        <?Php 
+        if ($user["avatar"] != "guestAvatar.jpeg") { 
+        ?>
+          <button id="deleteAvatarBtn" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <?php
+        } 
+        ?>
       </div>
       
       <!-- edit form column -->
@@ -58,7 +81,7 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">Họ và tên:</label>
             <div class="col-lg-8">
-              <input id="fullName" class="form-control" type="text" name="fullname" value="<?php echo $user["fullname"] ?>">
+              <input id="fullname" class="form-control" type="text" name="fullname" value="<?php echo $user["fullname"] ?>">
             </div>
           </div>
           <!-- password -->
@@ -94,7 +117,7 @@
               <input id="avatar" class="form-control" type="file" name="avatar">
             </div>
           </div>
-            <button type="button" class="btn btn-secondary btn-lg ml-3" id="refeshBtn">Thiết lập lại</button>
+            <button type="button" class="btn btn-secondary btn-lg ml-3" id="refreshBtn" disabled>Thiết lập lại</button>
             <button type="submit" class="btn btn-secondary btn-lg ml-3" name="editBtn" id="updateBtn" disabled>Lưu thay đổi</button>
         </form>
         <!--/.form edit -->
@@ -103,7 +126,52 @@
 </div>
 
 <script>
-$("#editForm :input").on("input",function() {
-        $("#updateBtn").prop("disabled", false);
+$("document").ready(function() {
+  var fullname = $("#fullname").val();
+  var password = $("#password").val();
+  var email = $("#email").val();
+  var user_type = $("#user_type").val();
+  var avatar = $("#avatarShow").attr("src");
+  
+  MaringAvatar();
+
+  // Khi thay doi profile thi active 2 nut
+  $("#editForm :input").on("input",function() {
+      $("#updateBtn").prop("disabled", false);
+      $("#refreshBtn").prop("disabled", false);
+  });
+
+  // khi an nut refresh thi disable 2 nut
+  $("#refreshBtn").click(function() {  
+    $("#avatarShow").attr("src", avatar);
+    MaringAvatar();
+
+    $("#fullname").val(fullname);
+    $("#password").val(password);
+    $("#email").val(email);
+    $("#user_type").val(user_type);
+    $("#avatar").val(null);
+
+    $("#updateBtn").prop("disabled", true);
+    $("#refreshBtn").prop("disabled", true);
+  });
 });
+
+// Khi an nut xoa avatar
+$("#deleteAvatarBtn").click(function() {
+  $("#avatarShow").attr("src", "../images/guestAvatar.jpeg");
+  MaringAvatar();
+
+  $("#updateBtn").prop("disabled", false);
+  $("#refreshBtn").prop("disabled", false);
+});
+
+// canh giua avatar vao khung hinh
+function MaringAvatar(){
+  var avatarFrame = $(".avatar-frame").width();
+  var avatar = $("#avatarShow").width();
+  var distance = avatarFrame/2 - avatar/2;
+  $("#avatarShow").css("margin-left", distance);
+}
+
 </script>
