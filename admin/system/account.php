@@ -16,7 +16,7 @@
         // Neu khong ton tai thi xuat loi, thanh cong thi toi trang index
         if (mysqli_num_rows($query) == 0) {
             $_SESSION["login_error"] = "Sai tên đăng nhập hoặc mật khẩu";
-            header("Location: ../login.php");
+            header("Location: ../../login.php");
         } else {
             $_SESSION["user"] = GetUserByUsername($username);
             header("Location: ../../index.php");

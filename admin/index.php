@@ -58,7 +58,7 @@
                     <a href="#uiSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action">Quản lý giao diện</a>
                     <!-- muc con trong Quan ly giao dien -->
                     <ul class="collapse list-unstyled" id="uiSubMenu">
-                        <li><a href="#" class="list-group-item list-group-item-action">Trang chủ</a></li>
+                        <li><a href="index.php?menu=test" class="list-group-item list-group-item-action">Trang chủ</a></li>
                         <li><a href="#" class="list-group-item list-group-item-action">...</a></li>
                         <li><a href="#" class="list-group-item list-group-item-action">...</a></li>
                     </ul>
@@ -104,6 +104,9 @@
                             break;
                         case "createprofile":
                             require_once("createprofile.php");
+                            break;
+                        case "test":
+                            require_once("../test.php");
                             break;
                     }
                 }
