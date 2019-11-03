@@ -1,5 +1,10 @@
 <?php
     session_start();
+    require_once("admin/system/database.php");
+    // Neu da dang nhap thi cap nhat lai thong tin user tu database
+    if (isset($_SESSION["user"])) {
+        $_SESSION["user"] = GetUserByUsername($_SESSION["user"]["username"]);
+    }
 
     // Neu logout thi xoa username, chuyen toi trang login
     if (isset($_GET["logout"])) {

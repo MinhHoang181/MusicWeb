@@ -48,8 +48,8 @@
                     <a href="#dataSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action">Quản lý dữ liệu</a>
                     <!-- muc con trong Quan ly du lieu -->
                     <ul class="collapse list-unstyled" id="dataSubMenu">
-                        <li><a href="#" class="list-group-item list-group-item-action">Thể loại</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action">Nhạc</a></li>
+                        <li><a href="index.php?menu=topicdata" class="list-group-item list-group-item-action">Thể loại</a></li>
+                        <li><a href="index.php?menu=musicdata" class="list-group-item list-group-item-action">Nhạc</a></li>
                         <li><a href="#" class="list-group-item list-group-item-action">Nghệ sĩ</a></li>
                     </ul>
                 </li>
@@ -105,8 +105,17 @@
                         case "createprofile":
                             require_once("createprofile.php");
                             break;
-                        case "test":
-                            require_once("../test.php");
+                        case "musicdata":
+                            require_once("musicdata.php");
+                            break;
+                        case "addmusic":
+                            require_once("addmusic.php");
+                            break;
+                        case "editmusic":
+                            require_once("editmusic.php");
+                            break;
+                        case "topicdata":
+                            require_once("topicdata.php");
                             break;
                     }
                 }

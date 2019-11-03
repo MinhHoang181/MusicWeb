@@ -2,6 +2,23 @@
     require_once("system/admincheck.php");
     require_once("system/database.php");
 ?>
+
+<style>
+.avatar-frame {
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.avatar-frame img {
+  width: auto;
+  height: 100%;
+}
+</style>
+
 <div class="container">
   <h2 class="text-info"><a href="index.php?menu=userdata" class="text-dark"><i class="fa fa-arrow-left"></i></a>  Tạo tài khoản</h2>
   <hr>
@@ -9,8 +26,8 @@
 	<div class="row">
       <!-- avatar -->
       <div class="col-md-3">
-        <div class="text-center">
-          <img src="../images/guestAvatar.jpeg" class="rounded-circle img-fluid" alt="avatar">
+        <div class="avatar-frame">
+          <img id="avatarShow" src="../images/guestAvatar.jpeg" alt="avatar">
         </div>
       </div>
       
@@ -90,7 +107,7 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">Ảnh đại diện</label>
             <div class="col-lg-8">
-              <input id="avatar" class="form-control" type="file" name="avatar">
+              <input id="avatarFile" class="form-control" type="file" name="avatar">
             </div>
           </div>
           <!-- button submit -->
@@ -102,7 +119,43 @@
 </div>
 
 <script>
-$("#editForm :input").on("input",function() {
-        $("#updateBtn").prop("disabled", false);
+$("document").ready(function() {
+  var avatarLocation = $("#avatarShow").attr("src");
+  var saveDistance = 0;
+
+  saveDistance = -1 * MarginAvatar(saveDistance);
+
+  // Thay doi avatar khi chon file anh
+  $("#avatarFile").change(function() {
+    readURL(this, saveDistance);
+  });
 });
+
+// canh giua avatar vao khung hinh
+function MarginAvatar(saveDistance) {
+  $("#avatarShow").css("margin-left", saveDistance);
+  var avatarFrame = $(".avatar-frame").width();
+  var avatar = $("#avatarShow").width();
+  var distance = avatarFrame/2 - avatar/2;
+  $("#avatarShow").css("margin-left", distance);
+  return distance;
+}
+
+// Doc file va show avatar khi chon file anh
+function readURL(input, saveDistance) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+      $("#avatarShow").on("load", function() {
+        saveDistance = -1 * MarginAvatar(saveDistance);
+      }).attr("src", e.target.result);
+    }
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    $("#avatarShow").on("load", function() {
+      saveDistance = -1 * MarginAvatar(saveDistance);
+    }).attr("src", "../images/guestAvatar.jpeg");
+  }
+}
 </script>

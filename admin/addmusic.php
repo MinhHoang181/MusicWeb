@@ -1,25 +1,138 @@
-<?php
-    require_once("../connect.php");
-    
-	$name = $_POST["name"];
-	$link = $_POST["link"];
-	$description = $_POST["description"];
-
-	$target_dir = "images/";
-	$file_name = basename($_FILES["fileUpload"]["name"]);
-	$target_file = $target_dir . $file_name;
-	
-	if (!move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $target_file)) {
-        die("Sorry, there was an error uploading your file.");
-    }
-	
-	$sql = "INSERT INTO music (name, link, description, image)
-			VALUES ('$name', $link, '$description', '$file_name')";
-			
-	if ($conn->query($sql) === FALSE) {
-		die("Error: " . $sql . $conn->error);
-	} else {
-		echo "Added successfully";
-	}
-	
+<?php 
+    require_once("system/admincheck.php");
+    require_once("system/database.php");
 ?>
+
+<style>
+.music-frame {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+  width: auto;
+}
+
+.music-frame img {
+  width: auto;
+  height: 100%;
+}
+</style>
+
+<div class="container">
+  	<h2 class="text-info"><a href="index.php?menu=musicdata" class="text-dark"><i class="fa fa-arrow-left"></i></a>  Thêm bài hát</h2>
+  	<hr>
+	<form action="system/music.php" method="POST" enctype="multipart/form-data">
+		<div class="row">
+			<!-- music image -->
+			<div class="col-md-4">
+				<div class="music-image">
+					<div class="music-frame">
+						<img class="mx-auto" id="musicImageShow" src="../images/music/music_placeholder.png" alt="music-image">
+					</div>
+					<div class="form-group">
+						<label class="control-label">Ảnh bìa bài hát:</label>
+						<input id="musicImageFile" type="file" class="form-control-file" name="music-image">
+					</div>
+				</div>
+				<!-- music-file -->
+				<div class="form-group">
+					<label class="control-label">File bài hát:</label>
+					<input id="musicFile" type="file" class="form-control-file" name="music-file" required>
+				</div>
+			</div>
+			<!--./music-image-->
+
+			<!-- info music -->
+			<div class="col-md-7 ml-auto pr-5">
+				<!-- thong bao-->
+				<?php 
+				if (isset($_SESSION["add_success"])) { 
+				?>
+					<div class="col-lg-8 alert alert-success alert-dismissable">
+					<a class="panel-close close" data-dismiss="alert">×</a> 
+					<?php 
+					echo $_SESSION["add_success"];
+					unset($_SESSION["add_success"]); 
+					?>
+					</div>
+				<?php 
+				} else if (isset($_SESSION["add_fail"])) { 
+				?>
+					<div class="col-lg-8 alert alert-danger alert-dismissable">
+					<a class="panel-close close" data-dismiss="alert">×</a> 
+					<?php 
+					echo $_SESSION["add_fail"];
+					unset($_SESSION["add_fail"]);
+					?>
+					</div>
+				<?php
+				}
+				?>
+				<!-- music-name -->
+				<div class="form-group">
+					<label class="control-label">Tên bài hát:</label>
+					<input type="text" class="form-control" name="music-name">
+				</div>
+				<!-- music-singer -->
+				<div class="form-group">
+					<label class="control-label">Tên nghệ sĩ:</label>
+					<input type="text" class="form-control" name="music-singer">
+				</div>
+				<!-- music-category -->
+				<div class="form-group">
+					<label class="control-label">Thể loại: </label>
+					<div class="input-group">
+						<input type="text" class="form-control col-9">
+						<a class="btn btn-outline-secondary col-3" data-toggle="collapse" href="#collapseCategory" aria-expanded="false" aria-controls="collapseCategory">Chọn thể loại</a>
+					</div>
+					<div class="collapse" id="collapseCategory">
+						<?php
+						$result = GetAllCategory();
+						while ($category = mysqli_fetch_assoc($result)) { 
+						?>
+						<div class="form-check-inline">
+							<label class="form-check-label p-2">
+								<input type="checkbox" class="form-check-input" name="<?php echo $category["id"]?>" value="<?php echo $category["id"]?>"><?php echo $category["name"]?>
+							</label>
+						</div>
+						<?php
+						}
+						?>
+					</div>
+				</div>
+				<!-- music-lyric -->
+				<div class="form-group">
+					<label class="control-label">Lời bài hát:</label>
+					<textarea class="form-control" name="music-lyric" style="height: 250px"></textarea>
+				</div>
+				<button class="btn btn-secondary btn-lg" type="subimt" name="addMusicBtn">Lưu</button>
+			</div>
+			<!--/.info music-->
+		</div>
+		<!--./row-->
+	</form>
+	<!--/.form-->
+</div>
+
+<script>
+$("document").ready(function() {
+  // Thay doi avatar khi chon file anh
+  $("#musicImageFile").change(function() {
+    readURL(this);
+  });
+});
+
+// Doc file va show avatar khi chon file anh
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+      $("#musicImageShow").attr("src", e.target.result);
+    }
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    $("#musicImageShow").attr("src", "../images/music/music_placeholder.png");
+  }
+}
+</script>

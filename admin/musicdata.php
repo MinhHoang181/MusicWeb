@@ -10,9 +10,9 @@
             <!-- Toolbar -->
             <div id="toolbar">
                 <div class="form-inline" role="form">
-                    <!-- Add account -->
+                    <!-- Add music -->
                     <div class="form-group">
-                            <a href="index.php?menu=createprofile"><button class="btn btn-secondary"><i class="fa fa-user-plus"></i> Tạo tài khoản</button></a>
+                            <a href="index.php?menu=addmusic"><button class="btn btn-secondary"><i class="fas fa-music"></i> Thêm bài hát</button></a>
                     </div>
                 </div>
             </div>
@@ -39,28 +39,33 @@
                 <thead class="thead-dark">
                     <tr>
                         <th class="text-center" data-field="id" data-width="100">ID</th>
-                        <th class="text-center" data-field="username" data-width="250">Tài khoản</th>
-                        <th class="text-center" data-field="email" data-width="250">Email</th>
-                        <th class="text-center" data-field="password" data-width="200">Password</th>
-                        <th class="text-center" data-field="user_type" data-width="100">Quyền hạn</th>
+                        <th class="text-center" data-field="name" data-width="250">Tên bài hát</th>
+                        <th class="text-center" data-field="singer" data-width="200">Ca sĩ</th>
+                        <th class="text-center" data-field="category" data-width="200">Thể loại</th>
+                        <th class="text-center" data-field="views" data-width="150">Lượt nghe</th>
                         <th class="text-center" data-field="action" data-width="100">Tác vụ</th>
                     </tr>
                 </thead>   
                 <tbody>
-                <!-- In tat ca user -->
+                <!-- In tat ca bai hat -->
                 <?php
-                $result = GetAllUser();
-                while ($user = mysqli_fetch_assoc($result)) { ?>
+                $result = GetAllMusic();
+                while ($music = mysqli_fetch_assoc($result)) { 
+                ?>
                     <tr>
-                        <td class="text-center"><?php echo $user["id"]?></td>
-                        <td class="text-left"><?php echo $user["username"]?></td>
-                        <td class="text-left"><?php echo $user["email"]?></td>
-                        <td>
-                            <input class="passwordShow text-left" type="password" value="<?php echo $user["password"]?>" disabled>
-                            <i class="showPasswordBtn fas fa-eye"></i>
+                        <td class="text-center"><?php echo $music["id"]?></td>
+                        <td class="text-left"><?php echo $music["name"]?></td>
+                        <td class="text-left"><?php echo $music["singer"]?></td>
+                        <td class="text-left">
+                            <?php
+                            $categories = GetAllCategoryOfMusic($music["id"]);
+                            while ($category = mysqli_fetch_assoc($categories)) {
+                                echo GetNameCategory($category["id_category"]) . ", ";
+                            }
+                            ?>
                         </td>
-                        <td class="text-center"><?php echo $user["user_type"]?></td>
-                        <td class="text-center"><a href="index.php?menu=editprofile&username=<?php echo $user["username"]?>"><i class="fas fa-edit"></i></a> | <a href="system/account.php?deleteAccount=<?php echo $user["id"]?>"><i class="fas fa-trash-alt text-danger"></i></a></td>
+                        <td class="text-center"><?php echo $music["views"]?></td>
+                        <td class="text-center"><a href="index.php?menu=editmusic&id=<?php echo $music["id"]?>"><i class="fas fa-edit"></i></a> | <a href="system/music.php?removeMusic=<?php echo $music["id"]?>"><i class="fas fa-trash-alt text-danger"></i></a></td>
                     </tr>
                 <?php 
                 } 
@@ -75,15 +80,6 @@
 </div>
 
 <script>
-$("document").ready(function() {
-    // Show/Hide password khi an nut Show
-    $(".showPasswordBtn").on("mousedown", function() {
-        $(this).closest("td").find(".passwordShow").prop("type", "text");
-    }).on("mouseup", function() {
-        $(this).closest("td").find(".passwordShow").prop("type", "password");
-    });
-});
-
 function queryParams() {
     var params = {}
     $('#toolbar').find('input[name]').each(function () {

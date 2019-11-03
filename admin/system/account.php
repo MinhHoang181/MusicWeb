@@ -84,9 +84,11 @@
             $avatar = $_FILES["avatar"]["name"];
             $temp_name = $_FILES["avatar"]["tmp_name"];
             $location = "../../images/" . $avatar;      
-            if(!move_uploaded_file($temp_name, $location)){
-                $_SESSION["edit_fail"] = "Lỗi upload ảnh, vui lòng thử lại";
-                header("Location: ../index.php?menu=createprofile");
+            if (!file_exists($location)) {
+                if(!move_uploaded_file($temp_name, $location)){
+                    $_SESSION["create_fail"] = "Lỗi upload ảnh, vui lòng thử lại";
+                    header("Location: ../index.php?menu=createprofile");
+                }
             }
         } else {
             $avatar = "guestAvatar.jpeg";
@@ -112,28 +114,22 @@
         $password = $_POST["password"];
         $email = $_POST["email"];
         $user_type = $_POST["user_type"];
+        $avatar = $_POST["avatar"];
         // Luu file anh
-        if ($_FILES["avatar"]["name"] != "") {
-            $avatar = $_FILES["avatar"]["name"];
-            $temp_name = $_FILES["avatar"]["tmp_name"];
+        if ($_FILES["avatarFile"]["name"] != "") {
+            $avatar = $_FILES["avatarFile"]["name"];
+            $temp_name = $_FILES["avatarFile"]["tmp_name"];
             $location = "../../images/" . $avatar;      
-            if(!move_uploaded_file($temp_name, $location)){
-                $_SESSION["edit_fail"] = "Lỗi cập nhật, vui lòng thử lại";
-            } else {
-                // Cap nhat ten file anh len database
-                $sql = "UPDATE account
-                SET avatar='$avatar'
-                WHERE username='$username'";
-                if ($conn->query($sql) == FALSE) {
+            if (!file_exists($location)) {
+                if(!move_uploaded_file($temp_name, $location)){
+                    $avatar = $_POST["avatar"];
                     $_SESSION["edit_fail"] = "Lỗi cập nhật, vui lòng thử lại";
-                } else {
-                    $_SESSION["edit_success"] = "Cập nhật thành công";
                 }
             }
         } 
         // Cau lenh SQL cap nhat
         $sql = "UPDATE account
-                SET fullname='$fullname', password='$password', email='$email', user_type='$user_type'
+                SET fullname='$fullname', password='$password', email='$email', user_type='$user_type', avatar='$avatar'
                 WHERE username='$username'";
         // ve lai trang cap nhat va thong bao ket qua
         if ($conn->query($sql) == FALSE) {
@@ -147,7 +143,7 @@
     // PHP Xoa tai khoan khoi database
     //
     // lay id tu $_GET gui toi
-    if (isset($_GET["deleteAccount"])) {
+    if (isset($_GET["deleteAccount"]) && $_SESSION["user"]["user_type"] == "admin") {
         $id = $_GET["deleteAccount"];
         $sql = "DELETE FROM account WHERE id='$id'";
         if ($conn->query($sql) == FALSE) {

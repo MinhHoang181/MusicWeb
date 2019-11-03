@@ -113,8 +113,9 @@
           <!-- file avatar -->
           <div class="form-group">
             <label class="col-lg-3 control-label">Ảnh đại diện</label>
+            <input type="hidden" id="avatar" name="avatar" value="<?php echo $user["avatar"] ?>">
             <div class="col-lg-8">
-              <input id="avatar" class="form-control" type="file" name="avatar">
+              <input id="avatarFile" class="form-control" type="file" name="avatarFile">
             </div>
           </div>
             <button type="button" class="btn btn-secondary btn-lg ml-3" id="refreshBtn" disabled>Thiết lập lại</button>
@@ -131,9 +132,11 @@ $("document").ready(function() {
   var password = $("#password").val();
   var email = $("#email").val();
   var user_type = $("#user_type").val();
-  var avatar = $("#avatarShow").attr("src");
-  
-  MaringAvatar();
+  var avatar = $("#avatar").val();
+  var avatarLocation = $("#avatarShow").attr("src");
+  var saveDistance = 0;
+
+  saveDistance = -1 * MarginAvatar(saveDistance);
 
   // Khi thay doi profile thi active 2 nut
   $("#editForm :input").on("input",function() {
@@ -143,35 +146,63 @@ $("document").ready(function() {
 
   // khi an nut refresh thi disable 2 nut
   $("#refreshBtn").click(function() {  
-    $("#avatarShow").attr("src", avatar);
-    MaringAvatar();
+    $("#avatarShow").on("load", function() {
+      saveDistance = -1 * MarginAvatar(saveDistance);
+    }).attr("src", avatarLocation);
 
     $("#fullname").val(fullname);
     $("#password").val(password);
     $("#email").val(email);
     $("#user_type").val(user_type);
-    $("#avatar").val(null);
+    $("#avatar").val(avatar);
+    $("#avatarFile").val(null);
 
     $("#updateBtn").prop("disabled", true);
     $("#refreshBtn").prop("disabled", true);
   });
-});
 
-// Khi an nut xoa avatar
-$("#deleteAvatarBtn").click(function() {
-  $("#avatarShow").attr("src", "../images/guestAvatar.jpeg");
-  MaringAvatar();
+  // Khi an nut xoa avatar
+  $("#deleteAvatarBtn").click(function() {
+    $("#avatarShow").on("load", function() {
+      saveDistance = -1 * MarginAvatar(saveDistance);
+    }).attr("src", "../images/guestAvatar.jpeg");
+    $("#avatar").val("guestAvatar.jpeg"); 
 
-  $("#updateBtn").prop("disabled", false);
-  $("#refreshBtn").prop("disabled", false);
+    $("#updateBtn").prop("disabled", false);
+    $("#refreshBtn").prop("disabled", false);
+  });
+
+  // Thay doi avatar khi chon file anh
+  $("#avatarFile").change(function() {
+    readURL(this, saveDistance, avatarLocation);
+  });
 });
 
 // canh giua avatar vao khung hinh
-function MaringAvatar(){
+function MarginAvatar(saveDistance) {
+  $("#avatarShow").css("margin-left", saveDistance);
   var avatarFrame = $(".avatar-frame").width();
   var avatar = $("#avatarShow").width();
   var distance = avatarFrame/2 - avatar/2;
   $("#avatarShow").css("margin-left", distance);
+  return distance;
 }
 
+// Doc file va show avatar khi chon file anh
+function readURL(input, saveDistance, location) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+      $("#avatarShow").on("load", function() {
+        saveDistance = -1 * MarginAvatar(saveDistance);
+      }).attr("src", e.target.result);
+    }
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    $("#avatarShow").on("load", function() {
+      saveDistance = -1 * MarginAvatar(saveDistance);
+    }).attr("src", "../images/" + location);
+  }
+}
 </script>
