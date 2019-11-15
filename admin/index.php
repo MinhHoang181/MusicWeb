@@ -50,7 +50,7 @@
                     <ul class="collapse list-unstyled" id="dataSubMenu">
                         <li><a href="index.php?menu=topicdata" class="list-group-item list-group-item-action">Thể loại</a></li>
                         <li><a href="index.php?menu=musicdata" class="list-group-item list-group-item-action">Nhạc</a></li>
-                        <li><a href="#" class="list-group-item list-group-item-action">Nghệ sĩ</a></li>
+                        <li><a href="index.php?menu=singerdata" class="list-group-item list-group-item-action">Nghệ sĩ</a></li>
                     </ul>
                 </li>
                 <!-- Quan ly giao dien -->
@@ -116,6 +116,15 @@
                             break;
                         case "topicdata":
                             require_once("topicdata.php");
+                            break;
+                        case "singerdata":
+                            require_once("singerdata.php");
+                            break;
+                        case "addsinger":
+                            require_once("addsinger.php");
+                            break;
+                        case "editsinger":
+                            require_once("editsinger.php");
                             break;
                     }
                 }

@@ -35,6 +35,7 @@ $("document").ready(function() {
                     "usernameCheck": username,
                 },
                 success: function(response) { // Gui request len register.php tra ve ket qua
+                    response = $.trim(response);
                     if (response == "taken") {
                         usernameError.removeClass("text-success");
                         usernameError.addClass("text-danger");
@@ -110,6 +111,7 @@ $("document").ready(function() {
                     "email_check": 1,
                     "emailCheck": email,},
                 success: function(response) {
+                    response = $.trim(response);
                     if (response == "taken") {
                         emailError.removeClass("text-success");
                         emailError.addClass("text-danger");

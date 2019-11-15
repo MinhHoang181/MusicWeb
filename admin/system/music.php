@@ -202,4 +202,91 @@
             header("Location: ../index.php?menu=topicdata");
         }
     }
+
+    // PHP Them ca si
+    //
+    // lay thong tin tu form them ca si
+    if (isset($_POST["addSingerBtn"])) {
+        $name = $_POST["name"];
+        $info = $_POST["info"];
+        $nation = $_POST["nation"];
+        // Luu file anh
+        if ($_FILES["image"]["name"] != "") {
+            $image = $_FILES["image"]["name"];
+            $temp_name = $_FILES["image"]["tmp_name"];
+            $location = "../../images/singer/" . $image;      
+            if (!file_exists($location)) {
+                if(!move_uploaded_file($temp_name, $location)){
+                    $_SESSION["create_fail"] = "Lỗi upload ảnh, vui lòng thử lại";
+                    header("Location: ../index.php?menu=addsinger");
+                }
+            }
+        } else {
+            $image = "guestAvatar.jpeg";
+        }
+        // Cau len SQL them ca si
+        $sql = "INSERT INTO singer (name, image, description, nation)
+                VALUES ('$name', '$image', '$info', '$nation')";
+        // thong bao ket qua va chuyen toi trang addsinger
+        if ($conn->query($sql) == FALSE) {
+            $_SESSION["create_fail"] = "Lỗi không thể thêm ca sĩ, vui lòng thử lại";
+        } else {
+            $_SESSION["create_success"] = "Thêm ca sĩ thành công";  
+        }
+        header("Location: ../index.php?menu=addsinger");
+    }
+
+    // PHP Cap nhat ca si
+    //
+    // Lay thong tin tu form edit ca si
+    if (isset($_POST["editSingerBtn"])) {
+        $id = $_GET["idSinger"];
+        $singer = GetSingerByID($id);
+        $name = $_POST["name"];
+        $info = $_POST["info"];
+        $nation = $_POST["nation"];
+        // Luu file anh
+        if ($_FILES["image"]["name"] != "") {
+            $image = $_FILES["image"]["name"];
+            $temp_name = $_FILES["image"]["tmp_name"];
+            $location = "../../images/singer/" . $image;      
+            if (!file_exists($location)) {
+                if(!move_uploaded_file($temp_name, $location)){
+                    $_SESSION["edit_fail"] = "Lỗi upload ảnh, vui lòng thử lại";
+                    header("Location: ../index.php?menu=editsinger");
+                }
+            }
+        } else {
+            $image = $singer["image"];
+        }
+        // Cau lenh SQL cap nhat vao database
+        $sql = "UPDATE singer
+                SET name='$name', image='$image', description='$info', nation='$nation'
+                WHERE id='$id'";
+        if ($conn->query($sql) == FALSE) {
+            $_SESSION["edit_fail"] = "Lỗi không thể cập nhật ca sĩ, vui lòng thử lại";
+        } else {
+            $_SESSION["edit_success"] = "Cập nhật ca sĩ thành công";
+        }
+        header("Location: ../index.php?menu=editsinger&id=".$id);
+    }
+
+    // PHP Xoa ca si khoi database
+    //
+    // lay id tu $_GET gui toi
+    if (isset($_GET["deleteSinger"]) && $_SESSION["user"]["user_type"] == "admin") {
+        $id = $_GET["deleteSinger"];
+        // xoa cac the loai cua bai hat
+        $sql = "DELETE FROM singer_music WHERE id_singer='$id'";
+        if ($conn->query($sql) == FALSE) {
+            $_SESSION["delete_singer_error"] = "Lỗi xoá ca sĩ cũ trong bài hát, vui lòng xoá lại";
+            header("Location: ../index.php?menu=singerdata");
+        } else { 
+            $sql = "DELETE FROM singer WHERE id='$id'";
+            if ($conn->query($sql) == FALSE) {
+                $_SESSION["delete_singer_error"] = "Xoá bị lỗi, vui lòng thử lại";
+            } 
+            header("Location: ../index.php?menu=singerdata");
+        }
+    }
 ?>

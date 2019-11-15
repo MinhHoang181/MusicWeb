@@ -37,6 +37,8 @@
     <!-- Bootstrap-table JS -->
     <script src="vendor/bootstrap-table/dist/bootstrap-table.js"></script>
     <script src="vendor/bootstrap-table/dist/bootstrap-table-locale-all.js"></script>
+    <!--Cookie-->
+    <script src="js\cookie.js"></script>
 
     <style>
         [class*="col-"] {
@@ -48,81 +50,10 @@
 </head>
 
 <body id="mp3">
-    <div class="navbar-top bg-dark">
-        <nav class="navbar navbar-expand-md bg-dark navbar-dark mx-5">
-            <!-- Brand -->
-            <a class="navbar-brand" href="#">Trang chu</a>
-            <!-- Toggler/collapsibe Button -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- Navbar links -->
-            <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- Thong tin user -->
-            <span id="collapsibleNavbar" class="collapse show mr-sm-3">
-                <ul class="navbar-nav">
-                    <!-- Avatar -->
-                    <li class="nav-item">
-                        <img src=
-                        <?php if (isset($_SESSION["user"])) { // Neu dang nhap thi hien thi link avatar cua user
-                            echo "images/" . $_SESSION["user"]["avatar"];
-                        } else {
-                            echo "images/guestAvatar.jpeg"; // Neu chua dang nhap thi hien thi default
-                        }
-                        ?>
-                        alt="user" class="rounded-circle float-right avt-img" style="width: 50px;">
-                    </li>
-                    <!-- Dang nhap -->
-                    <?php if (isset($_SESSION["user"])) { // Neu dang nhap thi hien ten, muc dropdown ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <!-- Hien ten -->
-                                <?php
-                                if ($_SESSION["user"]["fullname"] == '') {
-                                    echo $_SESSION["user"]["username"]; 
-                                } else {
-                                    echo $_SESSION["user"]["fullname"]; 
-                                }
-                                 ?>
-                                <!----------------------------------------->
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Nhạc cá nhân</a>
-                                <a class="dropdown-item" href="#">Thông tin cá nhân</a>
-                                <div class="dropdown-divider"></div>
-                                <!-- Neu user_type = admin thi xuat hien muc ADMIN -->
-                                <?php if ($_SESSION["user"]["user_type"] == "admin") { ?>
-                                    <a class="dropdown-item" href="admin/index.php"><strong>Chức năng admin</strong></a>
-                                <?php } ?>
-                                <!----------------------------------------------------------------------->
-                                <a class="dropdown-item" href="index.php?logout='1'">Đăng xuất</a>
-                            </div>
-                        </li>
-                    <?php } else { // Neu chua dang nhap thi hien muc dang nhap ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="login.php" target="_black">Đăng nhập</a>
-                        </li>
-                    <?php } ?>
-                </ul>
-            </span>
-        </nav>
-    </div>
-    
+    <?php include 'navigation.php';?> 
     <!--content-->
     <div class="container">
-        <div class="containerBHX">
+        <div class="box_content">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -151,16 +82,18 @@
             </div>
         </div>
         <!--#TOP BXH 1-->
-        <div class="containerBHX">
+        <div class="box_content">
             <h2 class="mx-2">#TOP BXH</h2>
             <div class="row">
                 <div class="col-6 col-md-3">
                     <div class="card">
                         <div class="card-img">
                             <img src="https://photo-resize-zmp3.zadn.vn/w480_r1x1_jpeg/cover/6/9/e/a/69ea4808abddca0ed7c7060f4beffa3a.jpg" class="card-img-top" alt="...">
+                            <span class="circle-play"></span>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
+                            <h5 class="card-title">Cơn mưa ngang qua</h5>
+                            <p style="text-size:14px;">Chi Dân, Sơn Tùng MTP</p>
                         </div>
                     </div>
                 </div>
@@ -197,7 +130,7 @@
             </div>
         </div>
         <!-- BXH 2-->
-        <div class="containerBHX">
+        <div class="box_content">
             <h2 class="mx-2">#TOP BXH</h2>
             <div class="row">
                 <div class="col-6 col-md-3">
@@ -243,27 +176,54 @@
             </div>
         </div>
         <!-- BXH 3-->
+        <?php 
+        $result = GetMusicTop();
+        ?>
         <div class="box_content">
+            <h2 class="mx-2">BÀI HÁT MỚI</h2>
             <ul class="music_list">
-              <li class="col-marr1">1</li>
-              <li class="col-marr2">2</li>
-              <li class="col-marr1">1</li>
-              <li class="col-marr2">2</li>
-              <li class="col-marr1">1</li>
-              <li class="col-marr2">2</li>
-              <li class="col-marr1">1</li>
-              <li class="col-marr2">2</li>
-              <li class="col-marr1">1</li>
-              <li class="col-marr2">2</li>
+                <!-- -->
+                <?php
+                $count = 1;
+                while ($music = mysqli_fetch_assoc($result)) {
+                    if ($count % 2 != 0) {
+                ?>
+                <li class="col-marr1 listen_active" id="<?php echo $music["id"] ?>" >
+                    <a onclick="#" href="playmusic.php?id=<?php echo $music["id"] ?>&name=<?php echo $music["name"] ?>"><img src="images/music/<?php echo $music["image"]?>" alt="<?php echo $music["name"] ?>"></a>
+                    <div class="info_song_home" >
+                        <h3 class="name over-text white"><a href="playmusic.php?id=<?php echo $music["id"] ?>&name=<?php echo $music["name"] ?>" title="<?php echo $music["name"] ?>" id="<?php echo $music["name"] ?>"><?php echo $music["name"] ?></a></h3>
+                        <h4 class="singer over-text black gray-color singer-h4"><a title="<?php echo $music["singer"] ?>" class="singer" href="#"><?php echo $music["singer"] ?></a></h4>
+                    </div>
+                </li>
+                <?php
+                    }
+                    else { 
+                ?>
+                <li class="col-marr2 listen_active" id="<?php echo $music["id"] ?>">
+                    <a onclick="#" href="playmusic.php?id=<?php echo $music["id"] ?>&name=<?php echo $music["name"] ?>"><img src="images/music/<?php echo $music["image"]?>" alt="<?php echo $music["name"] ?>"></a>
+                    <div class="info_song_home">
+                        <h3 class="name over-text white"><a href="playmusic.php?id=<?php echo $music["id"] ?>&name=<?php echo $music["name"] ?>" title="<?php echo $music["name"] ?>"><?php echo $music["name"] ?></a></h3>
+                        <h4 class="singer over-text black gray-color singer-h4"><a title="<?php echo $music["singer"] ?>" class="singer" href="#"><?php echo $music["singer"] ?></a></h4>
+                    </div>
+                </li>
+                <?php
+                        }
+                        $count++;
+                    }
+                ?>
+              <!--/.li -->
+              
             </ul>
+        </div>
+        <div class="box_content">
+            <h2 class="mx-2">Ca Sĩ</h2>
         </div>
     </div>
     <!--BX4-->
-    <footer class="py-3 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
-        </div>
-    </footer>
+  
+
+    
+    <?php include 'footer.php';?>
 
 <!-- Optional JavaScript -->
 <script>

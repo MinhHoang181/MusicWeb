@@ -3,7 +3,6 @@
     session_start();
     // Ket noi database
     require_once("database.php");
-
     // PHP Dang nhap tai khoan, kiem tra trong database
     //
     // Lay thong tin tu form dang nhap
@@ -22,7 +21,6 @@
             header("Location: ../../index.php");
         }
     } 
-
     // PHP Dang ky tai khoan moi, luu vao trong database
     //
     // Kiem tra tai khoan ton tai
@@ -30,7 +28,6 @@
         $usernameCheck = $_POST["usernameCheck"];
         $sql = "SELECT * FROM account WHERE username='$usernameCheck'";
         $result = mysqli_query($conn,$sql);
-
         // Neu ko co thi tra ve response = not_taken va nguoc lai
         if (mysqli_num_rows($result) == 0) {
             echo "not_taken";
@@ -69,7 +66,6 @@
             header("Location: ../../index.php");
         }
     }
-
     // PHP Admin tao tai khoan
     //
     // Lay thong tin tu form tao tai khoan
@@ -104,7 +100,6 @@
         }
         header("Location: ../index.php?menu=createprofile");
     } 
-
     // PHP Cap nhat tai khoan, luu vao trong database
     //
     // Lay thong tin tu form cap nhat
@@ -139,7 +134,6 @@
         }
         header("Location: ../index.php?menu=editprofile&username=".$username);
     }
-
     // PHP Xoa tai khoan khoi database
     //
     // lay id tu $_GET gui toi
