@@ -10,6 +10,29 @@
     if (isset($_POST["addMusicBtn"])) {
         $name = $_POST["music-name"];
         $singer = $_POST["music-singer"];
+        $singerCheck = trim(strtolower($singer));
+        // Kiem tra ca si co trong database chua
+        $sql = "SELECT * FROM singer";
+        $result = mysqli_query($conn,$sql);
+        $sql = "SELECT COUNT(id) FROM singer";
+        $count = mysqli_query($conn,$sql);
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $i = $i + 1;
+            if ($singerCheck == trim(strtolower($row["name"]))) {
+                $singer = $row["name"];
+                break;
+            } else if ($i == $count) {
+                $sql = "INSERT INTO singer(name)
+                        VALUES ('$singer')";
+                if ($conn->query($sql) == FALSE) {
+                    $_SESSION["add_fail"] = "Lỗi thêm ca sĩ mới, vui lòng thử lại";
+                    header("Location: ../index.php?menu=addmusic");
+                } else {
+                    break;
+                }
+            }
+        }
         $lyric = $_POST["music-lyric"];
         // kiem tra  va luu file anh bai hat
         if ($_FILES["music-image"]["name"] != "") {
@@ -39,7 +62,7 @@
         $sql = "INSERT INTO music (name, link, lyric, singer, image)
                 VALUES ('$name', '$link', '$lyric', '$singer', '$image')";
         // luu vao database, neu loi thi thong bao va chuyen ve trang tao bai hat
-        if ($conn->query($sql) === FALSE) {
+        if ($conn->query($sql) == FALSE) {
             $_SESSION["add_fail"] = "Lỗi không thể thêm bài hát, vui lòng thử lại ";
         } else {
             $id_music = mysqli_insert_id($conn);
@@ -68,6 +91,29 @@
         $music = GetMusicById($id);
         $name = $_POST["music-name"];
         $singer = $_POST["music-singer"];
+        $singerCheck = trim(strtolower($singer));
+        // Kiem tra ca si co trong database chua
+        $sql = "SELECT * FROM singer";
+        $result = mysqli_query($conn,$sql);
+        $sql = "SELECT COUNT(id) FROM singer";
+        $count = mysqli_query($conn,$sql);
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $i = $i + 1;
+            if ($singerCheck == trim(strtolower($row["name"]))) {
+                $singer = $row["name"];
+                break;
+            } else if ($i == $count) {
+                $sql = "INSERT INTO singer(name)
+                        VALUES ('$singer')";
+                if ($conn->query($sql) == FALSE) {
+                    $_SESSION["add_fail"] = "Lỗi thêm ca sĩ mới, vui lòng thử lại";
+                    header("Location: ../index.php?menu=addmusic");
+                } else {
+                    break;
+                }
+            }
+        }
         $lyric = $_POST["music-lyric"];
 
         // file anh bai hat
@@ -276,17 +322,10 @@
     // lay id tu $_GET gui toi
     if (isset($_GET["deleteSinger"]) && $_SESSION["user"]["user_type"] == "admin") {
         $id = $_GET["deleteSinger"];
-        // xoa cac the loai cua bai hat
-        $sql = "DELETE FROM singer_music WHERE id_singer='$id'";
+        $sql = "DELETE FROM singer WHERE id='$id'";
         if ($conn->query($sql) == FALSE) {
-            $_SESSION["delete_singer_error"] = "Lỗi xoá ca sĩ cũ trong bài hát, vui lòng xoá lại";
-            header("Location: ../index.php?menu=singerdata");
-        } else { 
-            $sql = "DELETE FROM singer WHERE id='$id'";
-            if ($conn->query($sql) == FALSE) {
-                $_SESSION["delete_singer_error"] = "Xoá bị lỗi, vui lòng thử lại";
-            } 
-            header("Location: ../index.php?menu=singerdata");
-        }
+            $_SESSION["delete_singer_error"] = "Xoá bị lỗi, vui lòng thử lại";
+        } 
+        header("Location: ../index.php?menu=singerdata");
     }
 ?>

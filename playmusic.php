@@ -21,7 +21,7 @@
 	$count = $result["views"];
 	// ham tang view ++
 	$result1 = Updataviews($count,$id);
-	$result2 = GetAllCategoryOfMusic1($id);
+	$result2 = GetAllCategoryOfMusic($id);
 	
 ?>
 
@@ -70,7 +70,13 @@
 								</li>
 								<li>
 									<span class="label">Thể loại:</span>
-									<span class="val"><?php echo $result2["name"] ?></span>
+									<span class="val">
+									<?php
+									while ($category = mysqli_fetch_assoc($result2)) {
+										echo GetNameCategory($category["id_category"]) . ", ";
+									}
+									?>
+									</span>
 								</li>
 							</ul>
 						</div>	
